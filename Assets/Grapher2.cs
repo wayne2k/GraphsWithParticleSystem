@@ -26,13 +26,16 @@ public class Grapher2 : MonoBehaviour {
 
 	private void CreatePoints () {
 		currentResolution = resolution;
-		points = new ParticleSystem.Particle[resolution];
+		points = new ParticleSystem.Particle[resolution * resolution];
 		float increment = 1f / (resolution - 1);
-		for (int i = 0; i < resolution; i++) {
-			float x = i * increment;
-			points[i].position = new Vector3(x, 0f, 0f);
-			points[i].color = new Color(x, 0f, 0f);
-			points[i].size = 0.1f;
+		int i = 0;
+		for (int x = 0; x < resolution; x++) {
+			for (int z = 0; z < resolution; z++) {
+				Vector3 p = new Vector3(x * increment, 0f, z * increment);
+				points[i].position = p;
+				points[i].color = new Color(p.x, 0f, p.z);
+				points[i++].size = 0.1f;
+			}
 		}
 	}
 
@@ -41,7 +44,7 @@ public class Grapher2 : MonoBehaviour {
 			CreatePoints();
 		}
 		FunctionDelegate f = functionDelegates[(int)function];
-		for (int i = 0; i < resolution; i++) {
+		for (int i = 0; i < points.Length; i++) {
 			Vector3 p = points[i].position;
 			p.y = f(p.x);
 			points[i].position = p;
