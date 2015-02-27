@@ -2442,6 +2442,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   function: 0
+  absolute: 0
+  threshold: .5
   resolution: 10
 --- !u!199 &1988591571
 ParticleSystemRenderer:

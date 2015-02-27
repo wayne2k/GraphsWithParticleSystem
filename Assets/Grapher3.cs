@@ -12,6 +12,8 @@ public class Grapher3 : MonoBehaviour {
 	}
 	
 	public FunctionOption function;
+	public bool absolute;
+	public float threshold = 0.5f;
 	[Range (10, 30)]
 	public int resolution = 10;
 
@@ -49,10 +51,19 @@ public class Grapher3 : MonoBehaviour {
 		}
 		FunctionDelegate f = functionDelegates[(int)function];
 		float t = Time.timeSinceLevelLoad;
-		for (int i = 0; i < points.Length; i++) {
-			Color c = points[i].color;
-			c.a = f(points[i].position, t);
-			points[i].color = c;
+		if (absolute) {
+			for (int i = 0; i < points.Length; i++) {
+				Color c = points[i].color;
+				c.a = f(points[i].position, t) >= threshold ? 1f : 0f;
+				points[i].color = c;
+			}
+		}
+		else {
+			for (int i = 0; i < points.Length; i++) {
+				Color c = points[i].color;
+				c.a = f(points[i].position, t);
+				points[i].color = c;
+			}
 		}
 		particleSystem.SetParticles(points, points.Length);
 	}
